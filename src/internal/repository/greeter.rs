@@ -1,7 +1,4 @@
-use super::repository::GreeterRepository;
-
-// Implement the MyTrait trait for a struct or type
-pub struct GreeterRepoImpl;
+use super::repository::{GreeterRepository, GreeterRepoImpl};
 
 impl GreeterRepoImpl {
     pub fn new() -> Self {

@@ -2,7 +2,7 @@ use tonic::{Request, Response, Status};
 
 use hello_world::greeter_server::Greeter;
 use hello_world::{HelloReply, HelloRequest};
-use crate::internal::repository::repository::GreeterRepository;
+use crate::internal::usecase::usecase::GreeterUsecase;
 
 
 pub mod hello_world {
@@ -10,7 +10,7 @@ pub mod hello_world {
 }
 
 pub struct MyGreeter {
-    pub greeter_repo: Box<dyn GreeterRepository + Send + Sync>,
+    pub greeter_usecase: Box<dyn GreeterUsecase + Send + Sync>,
 }
 
 #[tonic::async_trait]
@@ -21,7 +21,7 @@ impl Greeter for MyGreeter {
     ) -> Result<Response<HelloReply>, Status> {
         println!("Got a request from {:?}", request.remote_addr());
 
-        let res = self.greeter_repo.say_hello(request.into_inner().name.as_str());
+        let res = self.greeter_usecase.say_hello(request.into_inner().name.as_str());
 
         let reply = hello_world::HelloReply {
             message: format!("Hello {}!", res),
